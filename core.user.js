@@ -28,7 +28,10 @@
   ];
 
   var d = {
-    answer: 'sdo_answer'
+    answer: 'sdo_answer',
+    paddingSize: '3px',
+    hotKey: 'ShiftLeft',
+    selectBackColor: '#F5F5F5'
   };
 
   var qTypes = {
@@ -129,7 +132,7 @@
         answerDiv.querySelector('input[type=text]').setAttribute(d.answer, answer);
 
         answerDiv.addEventListener('keydown', function (event) {
-          if (event.code == 'ShiftLeft' && event.ctrlKey === true) {
+          if (event.code == d.hotKey && event.ctrlKey === true) {
             var el = this.querySelector('input[type=text]');
             var ans = el.getAttribute(d.answer);
 
@@ -137,7 +140,7 @@
             setClipboard(ans);
           }
         });
-        
+
         break;
       }
 
@@ -149,8 +152,7 @@
 
           answer.forEach(function (item) {
             if (item === text) {
-              alert(item);
-              check.style.marginLeft = '10px';
+              check.style.marginLeft = d.paddingSize;
             }
           });
 
@@ -167,7 +169,7 @@
 
           answer.forEach(function (item) {
             if (item === text) {
-              radio.style.marginLeft = '10px';
+              radio.style.marginLeft = d.paddingSize;
             }
           });
 
@@ -189,7 +191,8 @@
 
               options.forEach(function (option) {
                 if (questionRow[1] === option.textContent) {
-                  select.value = option.value;
+                  // select.value = option.value;
+                  option.style.backgroundColor = d.selectBackColor;
                 }
               });
             }
