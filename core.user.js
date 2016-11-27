@@ -27,6 +27,10 @@
     ['question', 1, 'answertext']
   ];
 
+  var d = {
+    answer: 'sdo_answer'
+  };
+
   var qTypes = {
     unknown: 0,
     text: 1,
@@ -39,6 +43,7 @@
 
   function init() {
     qTypes = Object.freeze(qTypes);
+    d = Object.freeze(d);
 
     var questions = getQuestions();
 
@@ -101,7 +106,6 @@
     var answerId = -1;
 
     db.every(function (item, index) {
-
       if (item[0] === questionText && item[1] === questionType) {
         answerId = index;
         return false;
@@ -122,9 +126,18 @@
       }
 
       case qTypes.text: {
-        answerDiv.querySelector('input[type=text]').value = answer;
-        setClipboard(answer);
+        answerDiv.querySelector('input[type=text]').setAttribute(d.answer, answer);
 
+        answerDiv.addEventListener('keydown', function (event) {
+          if (event.code == 'ShiftLeft' && event.ctrlKey === true) {
+            var el = this.querySelector('input[type=text]');
+            var ans = el.getAttribute(d.answer);
+
+            el.value = ans;
+            setClipboard(ans);
+          }
+        });
+        
         break;
       }
 
